@@ -12,15 +12,17 @@ const { Builder, By, Key, until } = require('selenium-webdriver');
         const title = await (driver.wait(until.elementLocated(By.xpath("//p[@class='list-view-title h4']")), 5000)).getText();
 
         if(title ==='Purchase Order Management'){
-            (await driver.findElement(By.xpath("//button[contains(text(), 'Add')]"))).click();
-            await (await driver.wait(until.elementLocated(By.xpath("//*[@class='modal-title']")), 5000)).getText();
+            (await driver.wait(until.elementLocated(By.xpath("//button[contains(text(), 'Add')]")), 5000)).click();
+            // (await driver.findElement(By.xpath("//button[contains(text(), 'Add')]"))).click();
+            await (driver.wait(until.elementLocated(By.xpath("//*[@class='modal-title']")), 5000)).getText();
             await driver.findElement(By.xpath("//input[@formcontrolname='name']")).sendKeys('PO1');
             await driver.findElement(By.xpath("//input[@formcontrolname='description']")).sendKeys('PO1');
 
             (await driver.findElement(By.xpath("//ng-select[@formcontrolname='vendor']"))).click();
             const options = (await driver.wait(until.elementsLocated(By.xpath("//div[@class='ng-option']")), 500));
             options[0].click();
-            (await driver.findElement(By.xpath("//div[@class='modal-content']/button[@class='btn btn-secondary']"))).click();
+            await driver.sleep(1000);
+            const a = await (await driver.findElement(By.xpath("//div[@class='datatable']/*//button"))).click();
         }
 
         await driver.sleep(5000);
